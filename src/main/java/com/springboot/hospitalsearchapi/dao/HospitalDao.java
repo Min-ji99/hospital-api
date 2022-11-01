@@ -48,14 +48,14 @@ public class HospitalDao {
     // '광주광역시 북구 풍향동 565번지 4호 3층', '광주광역시 북구 동문대로 24, 3층 (풍향동)', '효치과의원', '치과의원', '1', '0', '0');
 
     public void add(final Hospital hospital){
-        String sql = "Insert into nation_wide_hospital values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "Insert into nation_wide_hospitals values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         this.jdbcTemplate.update(sql, hospital.getId(), hospital.getOpenServiceName(), hospital.getOpenLocalGovernmentCode(),
                 hospital.getManagementNumber(), hospital.getLicenseDate(), hospital.getBusinessStatus(), hospital.getBusinessStatusCode(),
                 hospital.getPhone(), hospital.getFullAddress(), hospital.getRoadNameAddress(), hospital.getHospitalName(),
                 hospital.getBusinessTypeName(), hospital.getHealthcareProviderCount(), hospital.getPatientRoomCount(),
                 hospital.getTotalNumberOfBeds(), hospital.getTotalAreaSize());
     }
-    public Hospital findByName(String id){
+    public Hospital findById(String id){
         return this.jdbcTemplate.queryForObject("select * from nation_wide_hospitals where id=?", rowMapper, id);
     }
     public void deleteAll(){
