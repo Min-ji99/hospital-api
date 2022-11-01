@@ -22,6 +22,7 @@ public class HospitalDao {
     RowMapper<Hospital> rowMapper=new RowMapper<Hospital>() {
         @Override
         public Hospital mapRow(ResultSet rs, int rowNum) throws SQLException {
+            //String -> LocalDateTime
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
             LocalDateTime date = LocalDateTime.parse(rs.getString("license_data"), formatter);
             Hospital hospital=new Hospital(
@@ -56,5 +57,11 @@ public class HospitalDao {
     }
     public Hospital findByName(String id){
         return this.jdbcTemplate.queryForObject("select * from nation_wide_hospitals where id=?", rowMapper, id);
+    }
+    public void deleteAll(){
+        this.jdbcTemplate.update("delete from nation_wide_hospitals");
+    }
+    public void deleteById(String id){
+        this.jdbcTemplate.update("delete from nation_wide_hospitals where id=?", id);
     }
 }
