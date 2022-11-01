@@ -40,6 +40,12 @@ class HospitalParserTest {
         hospitalDao.add(hospital);
     }
     @Test
+    @DisplayName("Hospital deleteAll, getCount 잘 되는지")
+    void deleteAllTest(){
+        hospitalDao.deleteAll();
+        assertEquals(0, hospitalDao.getCount());
+    }
+    @Test
     @DisplayName("findById가 잘 되는지")
     void findByIdTest(){
         HospitalParser hp=new HospitalParser();
