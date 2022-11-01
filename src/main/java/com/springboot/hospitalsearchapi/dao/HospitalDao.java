@@ -23,8 +23,8 @@ public class HospitalDao {
         @Override
         public Hospital mapRow(ResultSet rs, int rowNum) throws SQLException {
             //String -> LocalDateTime
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
-            LocalDateTime date = LocalDateTime.parse(rs.getString("license_data"), formatter);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime date = LocalDateTime.parse(rs.getString("license_date"), formatter);
             Hospital hospital=new Hospital(
                     rs.getInt("id"), rs.getString("open_service_name"), rs.getInt("open_local_government_code"),
                     rs.getString("management_number"), date, rs.getInt("business_status"),

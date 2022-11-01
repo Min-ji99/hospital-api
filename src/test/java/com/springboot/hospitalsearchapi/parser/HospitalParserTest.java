@@ -1,5 +1,6 @@
 package com.springboot.hospitalsearchapi.parser;
 
+import com.springboot.hospitalsearchapi.dao.HospitalDao;
 import com.springboot.hospitalsearchapi.domain.Hospital;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,12 +21,33 @@ class HospitalParserTest {
     @Autowired
     ReadLineContext<Hospital> hospitalReadLineContext;
 
+    @Autowired
+    HospitalDao hospitalDao;
+
     @Test
     @DisplayName("만건 이상 데이터가 파싱되는지 ")
     void name() throws IOException {
         String filename="/Users/minji/Documents/likelion/file/fulldata_01_01_02_P_의원.csv";
         List<Hospital> hospitalList=hospitalReadLineContext.readByLine(filename);
         assertTrue(hospitalList.size()>10000);
+    }
+    @Test
+    @DisplayName("Hospital이 insert가 잘되는지")
+    void addTest(){
+        HospitalParser hp=new HospitalParser();
+        hospitalDao.deleteAll();
+        Hospital hospital= hp.parse(line1);
+        hospitalDao.add(hospital);
+    }
+    @Test
+    @DisplayName("findById가 잘 되는지")
+    void findByIdTest(){
+        HospitalParser hp=new HospitalParser();
+        hospitalDao.deleteAll();
+        Hospital hospital= hp.parse(line1);
+        hospitalDao.add(hospital);
+        Hospital findHospital=hospitalDao.findById("1");
+        assertEquals(hospital.getHospitalName(), findHospital.getHospitalName());
     }
     @Test
     @DisplayName("csv 1줄을 Hospital로 잘만드는지 Test")
