@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/hospital-api")
@@ -18,13 +19,26 @@ public class HospitalController {
         this.hospitalDao=hospitalDao;
     }
 
-    @GetMapping(value="/search/{id}")
-    public ResponseEntity<Hospital> getById(@PathVariable("id") String id){
+    @GetMapping(value="/search/id/{id}")
+    public ResponseEntity<Object> getById(@PathVariable("id") String id){
         Hospital hospital=hospitalDao.findById(id);
-        if(hospital!=null) {
+        Optional<Hospital> opt=Optional.of(hospital);
+
+        if(!opt.isEmpty()) {
             return ResponseEntity.ok().body(hospital);
         }else{
-            //return ResponseEntity.
+            return ResponseEntity.badRequest().body(new Hospital());
+        }
+    }
+
+    @GetMapping(value="/search/name/{name}")
+    public ResponseEntity<List<Hospital>> getByName(@PathVariable("name") String name){
+        List<Hospital> hospitalList=hospitalDao.findByName(name);
+        
+        if(!hospitalList.isEmpty()){
+            return ResponseEntity.ok().body(hospitalList);
+        }else{
+            return ResponseEntity.badRequest().body(new ArrayList<>());
         }
     }
 
