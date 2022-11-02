@@ -2,6 +2,7 @@ package com.springboot.hospitalsearchapi.parser;
 
 import com.springboot.hospitalsearchapi.dao.HospitalDao;
 import com.springboot.hospitalsearchapi.domain.Hospital;
+import com.springboot.hospitalsearchapi.service.HospitalService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,10 @@ class HospitalParserTest {
     @Autowired
     HospitalDao hospitalDao;
 
+    @Autowired
+    HospitalService hospitalService;
+
+    /*
     @Test
     @DisplayName("만건 이상 데이터가 파싱되는지 ")
     void name() throws IOException {
@@ -35,18 +40,15 @@ class HospitalParserTest {
     @DisplayName("병원정보 전체 add 잘되는지")
     void addAllTest() throws IOException {
         String filename="/Users/minji/Documents/likelion/file/fulldata_01_01_02_P_의원.csv";
-        List<Hospital> hospitalList=hospitalReadLineContext.readByLine(filename);
-        hospitalDao.deleteAll();
-        for(Hospital hospital:hospitalList){
-            hospitalDao.add(hospital);
-        }
-        assertEquals(hospitalList.size(), hospitalDao.getCount());
+        //hospitalDao.deleteAll();
+        int cnt=hospitalService.insertLargeVolumeHospitalData(filename);
+        assertEquals(cnt, hospitalDao.getCount());
     }
     @Test
     @DisplayName("Hospital이 insert가 잘되는지")
     void addTest(){
         HospitalParser hp=new HospitalParser();
-        hospitalDao.deleteAll();
+        //hospitalDao.deleteAll();
         Hospital hospital= hp.parse(line1);
         hospitalDao.add(hospital);
     }
@@ -60,12 +62,13 @@ class HospitalParserTest {
     @DisplayName("findById가 잘 되는지")
     void findByIdTest(){
         HospitalParser hp=new HospitalParser();
-        hospitalDao.deleteAll();
-        Hospital hospital= hp.parse(line1);
-        hospitalDao.add(hospital);
+        //hospitalDao.deleteAll();
+        //Hospital hospital= hp.parse(line1);
+        //hospitalDao.add(hospital);
         Hospital findHospital=hospitalDao.findById("1");
-        assertEquals(hospital.getHospitalName(), findHospital.getHospitalName());
+        assertEquals("효치과의원", findHospital.getHospitalName());
     }
+     */
     @Test
     @DisplayName("csv 1줄을 Hospital로 잘만드는지 Test")
     void convertToHospital(){
