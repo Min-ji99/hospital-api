@@ -32,6 +32,17 @@ class HospitalParserTest {
         assertTrue(hospitalList.size()>10000);
     }
     @Test
+    @DisplayName("병원정보 전체 add 잘되는지")
+    void addAllTest() throws IOException {
+        String filename="/Users/minji/Documents/likelion/file/fulldata_01_01_02_P_의원.csv";
+        List<Hospital> hospitalList=hospitalReadLineContext.readByLine(filename);
+        hospitalDao.deleteAll();
+        for(Hospital hospital:hospitalList){
+            hospitalDao.add(hospital);
+        }
+        assertEquals(hospitalList.size(), hospitalDao.getCount());
+    }
+    @Test
     @DisplayName("Hospital이 insert가 잘되는지")
     void addTest(){
         HospitalParser hp=new HospitalParser();
